@@ -1,0 +1,2 @@
+import {eligibility,plan} from './batch-core.js';
+self.onmessage=({data})=>{try{const {id,needs,schools,teachers,assignments,routes}=data;const edges=eligibility(needs,schools,teachers,assignments,(done,total)=>self.postMessage({id,progress:{done,total}}));self.postMessage({id,edges,provisional:plan(needs,edges),routed:plan(needs,edges,routes||{})});}catch(e){self.postMessage({id:data.id,error:e.message});}};
