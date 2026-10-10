@@ -1,0 +1,31 @@
+# Local state and secrets
+runtime/
+dist/
+.env
+.env.*
+*.sqlite3
+*.sqlite
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.pem
+*.key
+*.log
+# Python / JS caches and dependency environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+node_modules/
+# Local screenshots and generated design workspace
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/build/
+.impeccable/config.local.json
+# OS / editor artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

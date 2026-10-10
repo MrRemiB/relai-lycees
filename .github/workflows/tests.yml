@@ -1,0 +1,30 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Python offline tests with isolated SQLite databases
+        run: python -m unittest discover -s tests -v
+      - name: Python syntax
+        run: python -m compileall -q app.py matching.py routing.py scripts tests
+      - name: Frontend syntax and offline utility tests
+        run: |
+          node --check static/app.js
+          node --check static/utils.js
+          node frontend_tests/utils.test.mjs
