@@ -1,0 +1,34 @@
+[Unit]
+Description=Relai Lycees authenticated coordinator pilot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=relai
+Group=relai
+WorkingDirectory=/opt/relai
+EnvironmentFile=/etc/relai/pilot.env
+ExecStart=/opt/relai/.venv-production/bin/gunicorn -c /opt/relai/gunicorn.conf.py wsgi:application
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=45
+UMask=0077
+StateDirectory=relai
+RuntimeDirectory=relai
+Environment=TMPDIR=/run/relai
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/relai /run/relai
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+
+[Install]
+WantedBy=multi-user.target

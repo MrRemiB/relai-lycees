@@ -1,0 +1,35 @@
+import {parseCSV,validateBatch,generateNeeds,needsCSV,resultsCSV} from './batch-core.js';
+const LIMIT=3000;
+const el=(tag,text)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;return e;};
+function download(text,name){const a=el('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/csv;charset=utf-8'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+export function setupServerBatch({api,setTab}){
+ const tab=el('button','Plan serveur');tab.id='tab-batch';tab.type='button';tab.setAttribute('role','tab');tab.setAttribute('aria-controls','batch-pane');tab.setAttribute('aria-selected','false');tab.tabIndex=-1;document.querySelector('.tabs').append(tab);tab.onclick=()=>setTab('batch',true);
+ document.querySelector('.tabs').addEventListener('keydown',e=>{const ids=['tab-new','tab-needs','tab-batch'],i=ids.indexOf(e.target.id);if(i<0||!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();e.stopImmediatePropagation();const next=e.key==='Home'?0:e.key==='End'?2:(i+(e.key==='ArrowRight'?1:2))%3;setTab(['new','needs','batch'][next]);document.getElementById(ids[next]).focus();},true);
+ const pane=el('section');pane.id='batch-pane';pane.hidden=true;pane.setAttribute('role','tabpanel');pane.setAttribute('aria-labelledby','tab-batch');document.querySelector('.panel-footnote').before(pane);
+ pane.append(el('h3','Lots serveur · 3 000 besoins maximum'),el('p','Pilote coordinateur authentifié, profils fictifs exclusivement. Lots, progression et propositions partagés dans SQLite, pas dans ce navigateur. Aucune affectation automatique. Heuristique urgence, rareté puis dates ; pas de garantie d’optimalité. Chaque reprise revérifie les profils et affectations existantes.'));
+ const tools=el('div');tools.className='batch-tools';pane.append(tools);
+ const status=el('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+ const preview=el('div'),output=el('div');pane.append(status,preview,output);
+ const say=s=>{status.textContent=s;};let needs=[],job=null,timer=null;
+ const button=(text,fn)=>{const b=el('button',text);b.type='button';b.className='secondary';b.onclick=async()=>{b.disabled=true;try{await fn();}catch(e){say(e.message);}finally{b.disabled=false;}};tools.append(b);return b;};
+ const bootstrap=()=>api('/api/bootstrap');
+ const accept=ns=>{needs=ns;job=null;clearTimeout(timer);output.replaceChildren();preview.replaceChildren(el('p',`${ns.length} besoins fictifs validés, non enregistrés. « Enregistrer le lot serveur » crée explicitement un job partagé, pas des affectations.`));};
+ const render=()=>{if(!job)return;output.replaceChildren(el('h4',`Lot ${job.id} · ${job.status}`),el('p',`${job.counts.proposed} proposés / ${job.counts.total} · ${job.counts.deferred} différés · ${job.counts.unassigned} non pourvus`),el('p',`${job.progress.phase} : ${job.progress.done} / ${job.progress.total}${job.partial?' · comparaison partielle, trajets inconnus non classés':''}`));
+  const table=el('table'),head=el('tr');for(const label of ['Ligne','Lycée / discipline','État / motif','Profil / durée IGN'])head.append(el('th',label));table.append(head);
+  for(const r of job.results.slice(0,100)){const tr=el('tr');for(const v of [r.row,`${r.school_id} · ${r.subject}`,`${r.status} · ${r.reason}`,`${r.teacher_id||'—'} · ${r.duration_seconds===null?'non calculée':r.duration_seconds+' s'}`])tr.append(el('td',String(v)));table.append(tr);}
+  const wrap=el('div');wrap.className='batch-table';wrap.append(table);output.append(wrap,el('p',`Aperçu de ${Math.min(100,job.results.length)} lignes ; export des ${job.results.length} lignes par lecture serveur.`));};
+ const refresh=async()=>{if(!job)return;const id=job.id;const result=await api('/api/batches/'+id);if(job?.id!==id)return;job=result.job;render();clearTimeout(timer);if(job.status==='running')timer=setTimeout(()=>refresh().catch(e=>say(e.message)),1500);};
+ button('Modèle CSV',async()=>{const d=await bootstrap();download(needsCSV(generateNeeds(d.schools,d.metadata.today,1)),'relai-modele-lot.csv');});
+ button('Générer 3 000 besoins fictifs',async()=>{const d=await bootstrap();accept(generateNeeds(d.schools,d.metadata.today,LIMIT));});
+ const input=el('input');input.type='file';input.accept='.csv,text/csv';input.id='server-batch-file';const label=el('label','Importer un CSV fictif strict (séparateur ;, dates ISO, true/false)');label.htmlFor=input.id;pane.append(label,input);
+ input.onchange=async()=>{try{const f=input.files[0];if(!f)return;if(f.size>3000000)throw Error('CSV limité à 3 Mo');const d=await bootstrap(),v=validateBatch(parseCSV(await f.text()),d.schools,{limit:LIMIT});if(v.errors.length)throw Error('Lot rejeté atomiquement : '+v.errors.slice(0,5).map(e=>`ligne ${e.row} : ${e.message}`).join(' ; '));accept(v.needs);}catch(e){say(e.message);}};
+ button('Enregistrer le lot serveur',async()=>{if(!needs.length)throw Error('Importer ou générer un lot d’abord');if(!confirm('Enregistrer explicitement ce lot fictif partagé sur le serveur ? Aucune affectation automatique.'))return;job=(await api('/api/batches',{needs})).job;await refresh();say('Lot enregistré et relu depuis SQLite. Lancer une passe pour calculer.');});
+ button('Lancer / reprendre une passe IGN (80 max.)',async()=>{if(!job)throw Error('Enregistrer ou ouvrir un lot d’abord');job=(await api('/api/batches/'+job.id+'/run',{})).job;await refresh();say('Passe asynchrone serveur lancée. Fermer cet onglet ne supprime pas le lot. Pas de boucle IGN automatique.');});
+ button('Annuler / mettre en pause',async()=>{if(!job)throw Error('Ouvrir un lot d’abord');job=(await api('/api/batches/'+job.id+'/cancel',{})).job;await refresh();say('Annulation persistée. Une requête IGN déjà partie peut finir, mais ne publiera pas de nouvelles propositions.');});
+ button('Actualiser le lot',refresh);
+ const selector=el('select');selector.setAttribute('aria-label','Lots partagés récents');tools.append(selector);
+ button('Lister les lots partagés',async()=>{const d=await api('/api/batches');selector.replaceChildren();for(const j of d.jobs)selector.append(new Option(`${j.id} · ${j.status} · ${j.counts.total}`,j.id));say(`${d.jobs.length} lots récents (100 maximum affichés).`);});
+ button('Ouvrir le lot sélectionné',async()=>{if(!selector.value)throw Error('Lister puis sélectionner un lot');job={id:selector.value};await refresh();});
+ button('Exporter les propositions relues',async()=>{if(!job)throw Error('Ouvrir un lot');await refresh();if(['running','stale','interrupted','failed'].includes(job.status))throw Error('Reprendre et terminer une passe avant export : contexte non validé.');download(resultsCSV({rows:job.results}),'relai-plan-serveur.csv');});
+ pane.append(el('p','IGN reçoit les coordonnées des bases fictives et lycées, et l’IP du serveur ; jamais les dates ou disciplines. Limites globales : un seul processus et job actif, 80 paires ciblées par passe, 4 requêtes/s, 4 calculs concurrents, délai routage 30 s. Aucun temps inventé. Trajets inconnus différés ; résultats partiels explicites.'));
+}

@@ -4,6 +4,10 @@ Carte interactive des lycées français et aide explicable à la recherche de re
 
 Les établissements sont réels ; les **1 600 professeurs de démonstration sont fictifs**. Aucun fichier RH ni domicile réel n’est publié.
 
+## Branche production — pilote coordinateur authentifié
+
+Voir **[PRODUCTION.md](PRODUCTION.md)** pour l’installation native Gunicorn dans un venv isolé, le compte coordinateur configuré par saisie masquée, SQLite partagé, les lots asynchrones jusqu’à **3 000 besoins**, la protection CSRF/session, systemd/Caddy TLS et les sauvegardes/restaurations. Les commandes `app.py` ci-dessous restent celles du démonstrateur local non authentifié ; elles ne sont pas l’entrée production. Ce pilote conserve uniquement des profils fictifs, sans SSO ni homologation RH nationale. Aucun secret prédéfini, aucune publication production vers Pages.
+
 ## Version sans serveur — GitHub Pages
 
 Démo publique : https://mrremib.github.io/relai-lycees/

@@ -1,0 +1,31 @@
+name: Authenticated production pilot
+on:
+  push:
+    branches: [production]
+  pull_request:
+    branches: [production]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    if: github.ref == 'refs/heads/production' || github.base_ref == 'production'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m venv .venv-production
+      - run: .venv-production/bin/python -m pip install -r requirements-production.txt
+      - run: .venv-production/bin/python -m pip check
+      - run: .venv-production/bin/python -m unittest discover -s tests -v
+      - run: node --test frontend_tests/*.test.mjs
+      - run: .venv-production/bin/python -m compileall -q app.py matching.py routing.py batches.py production.py wsgi.py scripts tests
+      - name: Real Gunicorn authenticated HTTP smoke (isolated SQLite, no IGN calls)
+        run: .venv-production/bin/python scripts/smoke_production.py
+      # No upload-pages-artifact, deploy-pages, external secrets or publishing.

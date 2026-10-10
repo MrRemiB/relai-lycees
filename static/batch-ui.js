@@ -1,10 +1,12 @@
 import {RouteClient} from './browser-api.js';
+import {setupServerBatch} from './server-batch-ui.js';
 import {batchLimit,parseCSV,validateBatch,generateNeeds,needsCSV,resultsCSV,plan} from './batch-core.js';
 const KEY='relai-batch-proposals-v1';
 const el=(tag,text)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;return e;};
 const download=(text,name)=>{const a=el('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/csv;charset=utf-8'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);};
 async function fingerprint(data){const text=JSON.stringify([data.schools.map(s=>[s.id,s.academy,s.sector,s.pathways,s.lat,s.lon]),data.teachers,data.assignments.map(({route,...a})=>a)]);const hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text));return [...new Uint8Array(hash)].map(x=>x.toString(16).padStart(2,'0')).join('');}
 export function setupBatch({api,staticMode,setTab}){
+ if(!staticMode)return setupServerBatch({api,setTab});
  const limit=batchLimit(staticMode),tab=el('button','Plan de remplacement');tab.id='tab-batch';tab.setAttribute('role','tab');tab.setAttribute('aria-controls','batch-pane');tab.setAttribute('aria-selected','false');tab.tabIndex=-1;document.querySelector('.tabs').append(tab);tab.onclick=()=>setTab('batch',true);
  document.querySelector('.tabs').addEventListener('keydown',e=>{const ids=['tab-new','tab-needs','tab-batch'];const i=ids.indexOf(e.target.id);if(i<0||!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();e.stopImmediatePropagation();const next=e.key==='Home'?0:e.key==='End'?2:(i+(e.key==='ArrowRight'?1:2))%3;setTab(['new','needs','batch'][next]);document.getElementById(ids[next]).focus();},true);
  const pane=el('section');pane.id='batch-pane';pane.hidden=true;pane.setAttribute('role','tabpanel');pane.setAttribute('aria-labelledby','tab-batch');document.querySelector('.panel-footnote').before(pane);

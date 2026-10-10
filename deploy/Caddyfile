@@ -1,0 +1,10 @@
+# Replace with your DNS hostname; RELAI_ORIGIN must be this exact HTTPS origin.
+relai.example.org {
+    header Strict-Transport-Security "max-age=31536000"
+    request_body {
+        max_size 3MB
+    }
+    reverse_proxy 127.0.0.1:8137
+    # Do not configure file_server: assets and all APIs must pass authentication.
+    # No access log by default: avoid recording job/session details.
+}

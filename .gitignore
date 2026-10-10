@@ -3,6 +3,9 @@ runtime/
 dist/
 .env
 .env.*
+!.env.example
+.venv-production/
+*.worker.lock
 *.sqlite3
 *.sqlite
 *.db
