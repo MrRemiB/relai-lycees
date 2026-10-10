@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "revision": 0,
+  "config": {
+    "mode": "historical",
+    "label": "Démo simple historique — non contrôle métier",
+    "academy": null,
+    "school_ids": [],
+    "source_reference": null,
+    "validated_on": null,
+    "state": "draft",
+    "mission_modes": ["RCD", "rectoral"],
+    "rcd_max_days": 14,
+    "freshness_days": 30,
+    "travel_margin_minutes": 10,
+    "out_of_zone": "exclude",
+    "mobility_mode": "car",
+    "priority": "urgent_scarcity"
+  },
+  "zones": [],
+  "profiles": []
+}
