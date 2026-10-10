@@ -1,0 +1,3338 @@
+[
+  {
+    "name": "eligible",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "eligible"
+  },
+  {
+    "name": "draft",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "draft",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "review"
+  },
+  {
+    "name": "unknown dossier",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": []
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "review"
+  },
+  {
+    "name": "zone != radius",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "excluded"
+  },
+  {
+    "name": "outside zone review",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "review",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "review"
+  },
+  {
+    "name": "future source",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-11T00:00:01Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "review"
+  },
+  {
+    "name": "freshness inclusive",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-09-11T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "eligible"
+  },
+  {
+    "name": "freshness exceeded",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-09-10T23:59:59Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "review"
+  },
+  {
+    "name": "mobility manual",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "manual",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "review"
+  },
+  {
+    "name": "contract outside dates",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "contractual",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": {
+            "start_date": "2026-01-01",
+            "end_date": "2026-10-11",
+            "school_ids": [
+              "0210001A"
+            ],
+            "zone_ids": [],
+            "validated": true
+          },
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "excluded"
+  },
+  {
+    "name": "capacity cumulative",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [
+      {
+        "school_id": "0210001A",
+        "subject": "Mathématiques",
+        "pathway": "Générale",
+        "start_date": "2026-10-12",
+        "end_date": "2026-10-12",
+        "hours": 18,
+        "allow_cross_academy": false,
+        "max_travel_minutes": 90,
+        "mission_type": "rectoral",
+        "sessions": [
+          {
+            "date": "2026-10-12",
+            "start": "08:00",
+            "end": "09:00",
+            "timezone": "Europe/Paris",
+            "school_id": "0210001A"
+          }
+        ],
+        "teacher_id": "DEMO-0001"
+      }
+    ],
+    "now": 1791676800.0,
+    "status": "excluded"
+  },
+  {
+    "name": "sessions unknown",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral"
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "review"
+  },
+  {
+    "name": "conflict EDT",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [
+              {
+                "date": "2026-10-12",
+                "start": "10:00",
+                "end": "11:00",
+                "timezone": "Europe/Paris",
+                "school_id": "0210001A"
+              }
+            ],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "excluded"
+  },
+  {
+    "name": "timezone manual",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "UTC",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "review"
+  },
+  {
+    "name": "DST ambiguous",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-25",
+      "end_date": "2026-10-25",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-25",
+          "start": "02:10",
+          "end": "02:40",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "review"
+  },
+  {
+    "name": "RCD status required",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "RCD",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "excluded"
+  },
+  {
+    "name": "RCD eligible",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "RCD",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "RCD",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": {
+            "school_id": "0210001A",
+            "start_date": "2026-01-01",
+            "end_date": "2026-12-31",
+            "hours_limit": 4,
+            "hours_reserved": 1,
+            "hours_done": 1,
+            "validated": true
+          },
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "eligible"
+  },
+  {
+    "name": "RCD local reservations",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "RCD",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "RCD",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": {
+            "school_id": "0210001A",
+            "start_date": "2026-01-01",
+            "end_date": "2026-12-31",
+            "hours_limit": 4,
+            "hours_reserved": 1,
+            "hours_done": 1,
+            "validated": true
+          },
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [
+      {
+        "school_id": "0210001A",
+        "subject": "Mathématiques",
+        "pathway": "Générale",
+        "start_date": "2026-10-12",
+        "end_date": "2026-10-12",
+        "hours": 6,
+        "allow_cross_academy": false,
+        "max_travel_minutes": 90,
+        "mission_type": "RCD",
+        "sessions": [
+          {
+            "date": "2026-10-12",
+            "start": "08:00",
+            "end": "10:00",
+            "timezone": "Europe/Paris",
+            "school_id": "0210001A"
+          }
+        ],
+        "teacher_id": "DEMO-0001"
+      }
+    ],
+    "now": 1791676800.0,
+    "status": "excluded"
+  },
+  {
+    "name": "future rule validation",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-12",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "review"
+  },
+  {
+    "name": "unknown capacity",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": null,
+          "capacity_validated": false,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "review"
+  },
+  {
+    "name": "stale timetable",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-09-01T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "review"
+  },
+  {
+    "name": "actual simulation same site compatible",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [
+      {
+        "school_id": "0210001A",
+        "subject": "Mathématiques",
+        "pathway": "Générale",
+        "start_date": "2026-10-12",
+        "end_date": "2026-10-12",
+        "hours": 6,
+        "allow_cross_academy": false,
+        "max_travel_minutes": 90,
+        "mission_type": "rectoral",
+        "sessions": [
+          {
+            "date": "2026-10-12",
+            "start": "08:00",
+            "end": "09:00",
+            "timezone": "Europe/Paris",
+            "school_id": "0210001A"
+          }
+        ],
+        "teacher_id": "DEMO-0001"
+      }
+    ],
+    "now": 1791676800.0,
+    "status": "eligible"
+  },
+  {
+    "name": "actual simulation same site conflict",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [
+      {
+        "school_id": "0210001A",
+        "subject": "Mathématiques",
+        "pathway": "Générale",
+        "start_date": "2026-10-12",
+        "end_date": "2026-10-12",
+        "hours": 6,
+        "allow_cross_academy": false,
+        "max_travel_minutes": 90,
+        "mission_type": "rectoral",
+        "sessions": [
+          {
+            "date": "2026-10-12",
+            "start": "10:00",
+            "end": "11:00",
+            "timezone": "Europe/Paris",
+            "school_id": "0210001A"
+          }
+        ],
+        "teacher_id": "DEMO-0001"
+      }
+    ],
+    "now": 1791676800.0,
+    "status": "excluded"
+  },
+  {
+    "name": "unknown timetable overlapping actual simulation",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": null
+        }
+      ]
+    },
+    "assignments": [
+      {
+        "school_id": "0210001A",
+        "subject": "Mathématiques",
+        "pathway": "Générale",
+        "start_date": "2026-10-12",
+        "end_date": "2026-10-12",
+        "hours": 6,
+        "allow_cross_academy": false,
+        "max_travel_minutes": 90,
+        "mission_type": "rectoral",
+        "sessions": [
+          {
+            "date": "2026-10-12",
+            "start": "08:00",
+            "end": "09:00",
+            "timezone": "Europe/Paris",
+            "school_id": "0210001A"
+          }
+        ],
+        "teacher_id": "DEMO-0001"
+      }
+    ],
+    "now": 1791676800.0,
+    "status": "excluded"
+  },
+  {
+    "name": "actual simulation intersite no transition proof",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-12",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [
+      {
+        "school_id": "0210002B",
+        "subject": "Mathématiques",
+        "pathway": "Générale",
+        "start_date": "2026-10-12",
+        "end_date": "2026-10-12",
+        "hours": 6,
+        "allow_cross_academy": false,
+        "max_travel_minutes": 90,
+        "mission_type": "rectoral",
+        "sessions": [
+          {
+            "date": "2026-10-12",
+            "start": "08:00",
+            "end": "09:00",
+            "timezone": "Europe/Paris",
+            "school_id": "0210002B"
+          }
+        ],
+        "teacher_id": "DEMO-0001"
+      }
+    ],
+    "now": 1791676800.0,
+    "status": "review"
+  },
+  {
+    "name": "DST gap",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-03-29",
+      "end_date": "2026-03-29",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-03-29",
+          "start": "02:10",
+          "end": "02:40",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "review"
+  },
+  {
+    "name": "DST offset crossing",
+    "need": {
+      "school_id": "0210001A",
+      "subject": "Mathématiques",
+      "pathway": "Générale",
+      "start_date": "2026-03-29",
+      "end_date": "2026-03-29",
+      "hours": 6,
+      "allow_cross_academy": false,
+      "max_travel_minutes": 90,
+      "mission_type": "rectoral",
+      "sessions": [
+        {
+          "date": "2026-03-29",
+          "start": "01:10",
+          "end": "03:40",
+          "timezone": "Europe/Paris",
+          "school_id": "0210001A"
+        }
+      ]
+    },
+    "school": {
+      "id": "0210001A",
+      "academy": "Dijon",
+      "sector": "Public",
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "name": "Lycée fictif",
+      "city": "Dijon"
+    },
+    "teacher": {
+      "id": "DEMO-0001",
+      "name": "Profil démo 0001",
+      "academy": "Dijon",
+      "sector": "Public",
+      "subjects": [
+        "Mathématiques"
+      ],
+      "pathways": [
+        "Générale"
+      ],
+      "lat": 47.3,
+      "lon": 5.0,
+      "capacity_hours": 18,
+      "max_distance_km": 150,
+      "available_from": "2026-01-01",
+      "available_until": "2026-12-31",
+      "base_label": "Ancrage fictif",
+      "cross_academy": false
+    },
+    "business": {
+      "schema_version": 1,
+      "revision": 0,
+      "config": {
+        "mode": "controlled",
+        "label": "Démo simple historique — non contrôle métier",
+        "academy": "Dijon",
+        "school_ids": [
+          "0210001A"
+        ],
+        "source_reference": "Règles fictives test",
+        "validated_on": "2026-10-10",
+        "state": "validated",
+        "mission_modes": [
+          "RCD",
+          "rectoral"
+        ],
+        "rcd_max_days": 14,
+        "freshness_days": 30,
+        "travel_margin_minutes": 10,
+        "out_of_zone": "exclude",
+        "mobility_mode": "car",
+        "priority": "urgent_scarcity"
+      },
+      "zones": [
+        {
+          "id": "Z_TEST",
+          "label": "Zone fictive",
+          "academy": "Dijon",
+          "school_ids": [
+            "0210001A"
+          ],
+          "adjacent_zone_ids": []
+        }
+      ],
+      "profiles": [
+        {
+          "teacher_id": "DEMO-0001",
+          "status": "TZR",
+          "rad_school_id": "0210001A",
+          "zone_ids": [
+            "Z_TEST"
+          ],
+          "contract": null,
+          "capacity_hours": 18,
+          "capacity_validated": true,
+          "rcd_engagement": null,
+          "mobility_modes": [
+            "car"
+          ],
+          "cross_academy": false,
+          "source_updated_at": "2026-10-10T00:00:00Z",
+          "availability": null,
+          "timetable": {
+            "known": true,
+            "sessions": [],
+            "source_updated_at": "2026-10-10T00:00:00Z"
+          }
+        }
+      ]
+    },
+    "assignments": [],
+    "now": 1791676800.0,
+    "status": "review"
+  }
+]

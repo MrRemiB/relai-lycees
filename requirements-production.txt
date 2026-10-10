@@ -1,3 +1,5 @@
 # Native production WSGI runtime; no framework required.
 gunicorn==26.2.0
 packaging==26.3
+# IANA timezone fallback for strict session validation on systems without zoneinfo files.
+tzdata==2026.5

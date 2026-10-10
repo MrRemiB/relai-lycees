@@ -50,7 +50,12 @@ def validate_need(payload, schools, creation=False):
     if not isinstance(payload, dict):
         raise ValueError('Objet JSON requis.')
     allowed = {'school_id','subject','pathway','start_date','end_date','hours','allow_cross_academy','urgency'} if creation else {'school_id','subject','pathway','start_date','end_date','hours','allow_cross_academy','max_distance_km','need_id'}
-    allowed.add('max_travel_minutes')
+    allowed.update({'max_travel_minutes','mission_type','sessions'})
+    if 'mission_type' in payload and payload['mission_type'] not in ('RCD','rectoral','unknown'): raise ValueError('Circuit inconnu.')
+    if 'sessions' in payload:
+        from business import validate_sessions
+        validate_sessions(payload['sessions'],list(schools.values()),payload)
+        if any(s['school_id']!=payload.get('school_id') for s in payload['sessions']): raise ValueError('Site de séance différent du besoin.')
     number(payload.get('max_travel_minutes',90),'Trajet maximum (minutes)',0,480)
     if set(payload) - allowed:
         raise ValueError('Champs inconnus.')
@@ -87,8 +92,9 @@ def distance_km(lat1, lon1, lat2, lon2):
     return 6371.0088*2*math.asin(math.sqrt(min(1,max(0,h))))
 
 
-def match_candidates(need, school, teachers, assignments, max_distance_km=150):
-    candidates, excluded, counts = [], [], {}
+def match_candidates(need, school, teachers, assignments, max_distance_km=150, business=None, now=None):
+    from business import business_check
+    candidates, excluded, counts, review = [], [], {}, []
     number(max_distance_km, 'Rayon', 0, 2000)
     for teacher in teachers:
         reasons=[]
@@ -106,19 +112,26 @@ def match_candidates(need, school, teachers, assignments, max_distance_km=150):
         if teacher['capacity_hours'] < need['hours']: reasons.append('Capacité hebdomadaire insuffisante')
         if dist is not None and dist > teacher['max_distance_km']: reasons.append('Hors mobilité du profil')
         if dist is not None and dist > max_distance_km: reasons.append('Hors rayon du besoin')
-        if any(a['teacher_id']==teacher['id'] and a['start_date'] <= need['end_date'] and a['end_date'] >= need['start_date'] for a in assignments): reasons.append('Affectation sur une période chevauchante')
+        if (not business or business['config']['mode']=='historical') and any(a['teacher_id']==teacher['id'] and a['start_date'] <= need['end_date'] and a['end_date'] >= need['start_date'] for a in assignments): reasons.append('Affectation sur une période chevauchante')
+        controlled=business_check(need,school,teacher,business,assignments,now)
+        if controlled['status']=='excluded': reasons.extend(controlled['reasons'])
         if reasons:
             for reason in reasons: counts[reason]=counts.get(reason,0)+1
             excluded.append(dict(teacher_id=teacher['id'],name=teacher['name'],distance_km=round(dist,2) if dist is not None else None,reasons=reasons))
+        elif controlled['status']=='review':
+            review.append(dict(teacher_id=teacher['id'],name=teacher['name'],distance_km=round(dist,2),**controlled))
         else:
-            candidates.append(dict(teacher=teacher,distance_km=round(dist,2),reasons=['Discipline, voie, secteur et académie compatibles','Disponible sur toute la période','Capacité suffisante et aucune affectation chevauchante','Distance dans les deux rayons de mobilité'],_distance=dist))
+            candidates.append(dict(teacher=teacher,distance_km=round(dist,2),reasons=['Discipline, voie, secteur et académie compatibles','Disponible sur toute la période','Capacité déclarée et conflits EDT/dates vérifiés (simulation)' if business and business['config']['mode']=='controlled' else 'Capacité suffisante et aucune affectation chevauchante','Distance dans les deux rayons de mobilité'],_distance=dist))
+            if business is not None: candidates[-1].update(business_status='eligible',review_flags=[],business_reasons=controlled['reasons'])
     candidates.sort(key=lambda c:(c['_distance'],-c['teacher']['capacity_hours'],c['teacher']['id']))
     for c in candidates: del c['_distance']
-    return dict(candidates=candidates,excluded=excluded,summary=dict(eligible=len(candidates),total=len(teachers),exclusions=counts),method=METHOD)
+    output=dict(candidates=candidates,excluded=excluded,summary=dict(eligible=len(candidates),total=len(teachers),exclusions=counts),method=METHOD)
+    if business is not None: output['review']=review; output['summary']['review']=len(review)
+    return output
 
 
-def match_routed_candidates(need, school, teachers, assignments, router, max_distance_km=150):
-    result=match_candidates(need,school,teachers,assignments,max_distance_km)
+def match_routed_candidates(need, school, teachers, assignments, router, max_distance_km=150, business=None):
+    result=match_candidates(need,school,teachers,assignments,max_distance_km,business)
     base=result['candidates']; offered=[]; calculated=unavailable=deferred=0
     maximum=number(need.get('max_travel_minutes',90),'Trajet maximum',0,480)*60
     pairs=[((c['teacher']['lon'],c['teacher']['lat']),(school['lon'],school['lat'])) for c in base]
@@ -149,4 +162,5 @@ def match_routed_candidates(need, school, teachers, assignments, router, max_dis
     result['summary'].update(eligible=len(offered),compatible_before_routing=len(base),routes_calculated=calculated,routes_unavailable=unavailable,routes_deferred=deferred)
     result['routing']=dict(provider='IGN Géoplateforme',profile='car',traffic=False,partial=partial,warning='Comparaison partielle : le classement porte uniquement sur les trajets calculés. Réessayez pour compléter les calculs.' if partial else None,requested=len(base),calculated=calculated,unavailable=unavailable,deferred=deferred)
     result['method']='Temps de trajet estimé en voiture, sans trafic en temps réel ; secondes exactes, puis distance routière, capacité décroissante et identifiant. Toute affectation dont les dates se chevauchent est bloquée : aucun emploi du temps réel disponible. Validation humaine simulée uniquement.'
+    if business and business['config']['mode']=='controlled': result['method']='Temps routier réel IGN puis capacité/identifiant. Règles locales fictives : circuit, RAD, zones, contrat, engagement, fraîcheur, capacité cumulée et EDT. Transitions intersites sans preuve dédiée et fuseaux/DST non pris en charge : revue. Aucune conformité réglementaire, affectation officielle ou paie.'
     return result

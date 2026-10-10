@@ -1,0 +1,1710 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Relai anonymous business pilot integration",
+    "version": "1.0.0",
+    "description": "Full replacement anonymous configuration only. This schema does not authorize real RH data, national legal compliance, SSO or payroll. Unknown keys/duplicate JSON keys and references are rejected. No real roster connector exists."
+  },
+  "paths": {
+    "/api/v1/config": {
+      "get": {
+        "operationId": "readConfig",
+        "description": "Requires integration read scope OR coordinator session. Mutating human requests additionally require exact Origin and X-CSRF-Token. Bearer-only integration requests reject cookies. No callback URLs.",
+        "security": [
+          {
+            "IntegrationBearer": []
+          },
+          {
+            "CoordinatorSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Business"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed schema/JSON/cursor; no mutation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication missing or refused",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope denied; mixed cookie/bearer or human CSRF/origin missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Stale revision or same idempotency key with different payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP body exceeds 3 MB; business document exceeds 2.5 MB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "application/json required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SQLite unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "replaceConfig",
+        "description": "Requires integration config scope OR coordinator session. Mutating human requests additionally require exact Origin and X-CSRF-Token. Bearer-only integration requests reject cookies. No callback URLs.",
+        "security": [
+          {
+            "IntegrationBearer": []
+          },
+          {
+            "CoordinatorSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Business"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed schema/JSON/cursor; no mutation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication missing or refused",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope denied; mixed cookie/bearer or human CSRF/origin missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Stale revision or same idempotency key with different payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP body exceeds 3 MB; business document exceeds 2.5 MB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "application/json required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SQLite unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommitRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/imports/validate": {
+      "post": {
+        "operationId": "validateImport",
+        "description": "Requires integration import scope OR coordinator session. Mutating human requests additionally require exact Origin and X-CSRF-Token. Bearer-only integration requests reject cookies. No callback URLs.",
+        "security": [
+          {
+            "IntegrationBearer": []
+          },
+          {
+            "CoordinatorSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Validated"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed schema/JSON/cursor; no mutation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication missing or refused",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope denied; mixed cookie/bearer or human CSRF/origin missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Stale revision or same idempotency key with different payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP body exceeds 3 MB; business document exceeds 2.5 MB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "application/json required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SQLite unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/imports/commit": {
+      "post": {
+        "operationId": "commitImport",
+        "description": "Requires integration import scope OR coordinator session. Mutating human requests additionally require exact Origin and X-CSRF-Token. Bearer-only integration requests reject cookies. No callback URLs.",
+        "security": [
+          {
+            "IntegrationBearer": []
+          },
+          {
+            "CoordinatorSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Business"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed schema/JSON/cursor; no mutation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication missing or refused",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope denied; mixed cookie/bearer or human CSRF/origin missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Stale revision or same idempotency key with different payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP body exceeds 3 MB; business document exceeds 2.5 MB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "application/json required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SQLite unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommitRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/events": {
+      "get": {
+        "operationId": "readEvents",
+        "description": "Requires integration read scope OR coordinator session. Mutating human requests additionally require exact Origin and X-CSRF-Token. Bearer-only integration requests reject cookies. No callback URLs.",
+        "security": [
+          {
+            "IntegrationBearer": []
+          },
+          {
+            "CoordinatorSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Events"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed schema/JSON/cursor; no mutation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication missing or refused",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope denied; mixed cookie/bearer or human CSRF/origin missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Stale revision or same idempotency key with different payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP body exceeds 3 MB; business document exceeds 2.5 MB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "application/json required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SQLite unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^v1:[0-9]+$",
+              "default": "v1:0"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 100
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/reference/zones": {
+      "get": {
+        "operationId": "readZones",
+        "description": "Requires integration read scope OR coordinator session. Mutating human requests additionally require exact Origin and X-CSRF-Token. Bearer-only integration requests reject cookies. No callback URLs.",
+        "security": [
+          {
+            "IntegrationBearer": []
+          },
+          {
+            "CoordinatorSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ZonesReference"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed schema/JSON/cursor; no mutation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication missing or refused",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope denied; mixed cookie/bearer or human CSRF/origin missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Stale revision or same idempotency key with different payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP body exceeds 3 MB; business document exceeds 2.5 MB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "application/json required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SQLite unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reference/profiles": {
+      "get": {
+        "operationId": "readProfiles",
+        "description": "Requires integration read scope OR coordinator session. Mutating human requests additionally require exact Origin and X-CSRF-Token. Bearer-only integration requests reject cookies. No callback URLs.",
+        "security": [
+          {
+            "IntegrationBearer": []
+          },
+          {
+            "CoordinatorSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfilesReference"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed schema/JSON/cursor; no mutation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication missing or refused",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope denied; mixed cookie/bearer or human CSRF/origin missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Stale revision or same idempotency key with different payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP body exceeds 3 MB; business document exceeds 2.5 MB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "application/json required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SQLite unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reference/timetables": {
+      "get": {
+        "operationId": "readTimetables",
+        "description": "Requires integration read scope OR coordinator session. Mutating human requests additionally require exact Origin and X-CSRF-Token. Bearer-only integration requests reject cookies. No callback URLs.",
+        "security": [
+          {
+            "IntegrationBearer": []
+          },
+          {
+            "CoordinatorSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimetablesReference"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed schema/JSON/cursor; no mutation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication missing or refused",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Scope denied; mixed cookie/bearer or human CSRF/origin missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Stale revision or same idempotency key with different payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "HTTP body exceeds 3 MB; business document exceeds 2.5 MB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "application/json required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SQLite unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Config": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "historical",
+              "controlled"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "academy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "school_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^\\d{7}[A-Z]$",
+              "description": "Must exist in loaded official directory."
+            },
+            "maxItems": 5000,
+            "uniqueItems": true
+          },
+          "source_reference": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "validated_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "validated"
+            ]
+          },
+          "mission_modes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "RCD",
+                "rectoral"
+              ]
+            },
+            "maxItems": 2,
+            "uniqueItems": true,
+            "minItems": 1
+          },
+          "rcd_max_days": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 365
+          },
+          "freshness_days": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 3650
+          },
+          "travel_margin_minutes": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 240
+          },
+          "out_of_zone": {
+            "type": "string",
+            "enum": [
+              "exclude",
+              "review"
+            ]
+          },
+          "mobility_mode": {
+            "type": "string",
+            "enum": [
+              "car",
+              "manual"
+            ]
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "urgent_scarcity",
+              "scarcity"
+            ]
+          }
+        },
+        "required": [
+          "mode",
+          "label",
+          "academy",
+          "school_ids",
+          "source_reference",
+          "validated_on",
+          "state",
+          "mission_modes",
+          "rcd_max_days",
+          "freshness_days",
+          "travel_margin_minutes",
+          "out_of_zone",
+          "mobility_mode",
+          "priority"
+        ],
+        "additionalProperties": false
+      },
+      "Session": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "start": {
+            "type": "string",
+            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+          },
+          "end": {
+            "type": "string",
+            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+          },
+          "timezone": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "description": "IANA zone; executable only Europe/Paris; DST ambiguity/gap/change = review."
+          },
+          "school_id": {
+            "type": "string",
+            "pattern": "^\\d{7}[A-Z]$",
+            "description": "Must exist in loaded official directory."
+          }
+        },
+        "required": [
+          "date",
+          "start",
+          "end",
+          "timezone",
+          "school_id"
+        ],
+        "additionalProperties": false
+      },
+      "Zone": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^Z[A-Za-z0-9_-]{1,63}$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "academy": {
+            "type": "string"
+          },
+          "school_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^\\d{7}[A-Z]$",
+              "description": "Must exist in loaded official directory."
+            },
+            "maxItems": 5000,
+            "uniqueItems": true
+          },
+          "adjacent_zone_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^Z[A-Za-z0-9_-]{1,63}$"
+            },
+            "maxItems": 500,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "academy",
+          "school_ids",
+          "adjacent_zone_ids"
+        ],
+        "additionalProperties": false
+      },
+      "Availability": {
+        "type": "object",
+        "properties": {
+          "start_date": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          }
+        },
+        "required": [
+          "start_date",
+          "end_date"
+        ],
+        "additionalProperties": false
+      },
+      "Contract": {
+        "type": "object",
+        "properties": {
+          "start_date": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "school_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^\\d{7}[A-Z]$",
+              "description": "Must exist in loaded official directory."
+            },
+            "maxItems": 5000,
+            "uniqueItems": true
+          },
+          "zone_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^Z[A-Za-z0-9_-]{1,63}$"
+            },
+            "maxItems": 5000,
+            "uniqueItems": true
+          },
+          "validated": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "start_date",
+          "end_date",
+          "school_ids",
+          "zone_ids",
+          "validated"
+        ],
+        "additionalProperties": false
+      },
+      "Engagement": {
+        "type": "object",
+        "properties": {
+          "school_id": {
+            "type": "string",
+            "pattern": "^\\d{7}[A-Z]$",
+            "description": "Must exist in loaded official directory."
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "hours_limit": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2000
+          },
+          "hours_reserved": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2000
+          },
+          "hours_done": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2000
+          },
+          "validated": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "school_id",
+          "start_date",
+          "end_date",
+          "hours_limit",
+          "hours_reserved",
+          "hours_done",
+          "validated"
+        ],
+        "additionalProperties": false
+      },
+      "Timetable": {
+        "type": "object",
+        "properties": {
+          "known": {
+            "type": "boolean"
+          },
+          "sessions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Session"
+            },
+            "maxItems": 1000,
+            "uniqueItems": true
+          },
+          "source_updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "known",
+          "sessions",
+          "source_updated_at"
+        ],
+        "additionalProperties": false
+      },
+      "Profile": {
+        "type": "object",
+        "properties": {
+          "teacher_id": {
+            "type": "string",
+            "pattern": "^DEMO-\\d{4,8}$",
+            "description": "Existing anonymous fictitious roster ID only."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "TZR",
+              "contractual",
+              "RCD",
+              "unknown"
+            ]
+          },
+          "rad_school_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\d{7}[A-Z]$",
+                "description": "Must exist in loaded official directory."
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "zone_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^Z[A-Za-z0-9_-]{1,63}$"
+            },
+            "maxItems": 500,
+            "uniqueItems": true
+          },
+          "contract": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Contract"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "capacity_hours": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.1,
+                "maximum": 60
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "capacity_validated": {
+            "type": "boolean"
+          },
+          "rcd_engagement": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Engagement"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mobility_modes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "car",
+                "manual"
+              ]
+            },
+            "maxItems": 2,
+            "uniqueItems": true
+          },
+          "cross_academy": {
+            "type": "boolean"
+          },
+          "source_updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "availability": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Availability"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "timetable": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Timetable"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "teacher_id",
+          "status",
+          "rad_school_id",
+          "zone_ids",
+          "contract",
+          "capacity_hours",
+          "capacity_validated",
+          "rcd_engagement",
+          "mobility_modes",
+          "cross_academy",
+          "source_updated_at",
+          "availability",
+          "timetable"
+        ],
+        "additionalProperties": false
+      },
+      "Business": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "type": "integer",
+            "enum": [
+              1
+            ]
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "config": {
+            "$ref": "#/components/schemas/Config"
+          },
+          "zones": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Zone"
+            },
+            "maxItems": 500,
+            "uniqueItems": true
+          },
+          "profiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Profile"
+            },
+            "maxItems": 5000,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "schema_version",
+          "revision",
+          "config",
+          "zones",
+          "profiles"
+        ],
+        "additionalProperties": false
+      },
+      "ValidateRequest": {
+        "type": "object",
+        "properties": {
+          "document": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Business"
+              },
+              {
+                "type": "string",
+                "maxLength": 2500000,
+                "description": "Strict duplicate-key rejecting JSON text of Business."
+              }
+            ]
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "confirm_demo": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$"
+          },
+          "source_reference": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "document",
+          "expected_revision",
+          "confirm_demo"
+        ],
+        "additionalProperties": false
+      },
+      "CommitRequest": {
+        "type": "object",
+        "properties": {
+          "document": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Business"
+              },
+              {
+                "type": "string",
+                "maxLength": 2500000,
+                "description": "Strict duplicate-key rejecting JSON text of Business."
+              }
+            ]
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "confirm_demo": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$"
+          },
+          "source_reference": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "idempotency_key": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{8,128}$"
+          }
+        },
+        "required": [
+          "document",
+          "expected_revision",
+          "confirm_demo",
+          "idempotency_key"
+        ],
+        "additionalProperties": false
+      },
+      "Validated": {
+        "type": "object",
+        "properties": {
+          "valid": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "document": {
+            "$ref": "#/components/schemas/Business"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "valid",
+          "document",
+          "revision"
+        ],
+        "additionalProperties": false
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "additionalProperties": false
+      },
+      "Event": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "actor": {
+            "type": "string",
+            "description": "coordinator or integration:<server configured ID>"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "business.replace",
+                          "reset",
+                          "roster.append"
+            ]
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$"
+          }
+        },
+        "required": [
+          "id",
+          "revision",
+          "actor",
+          "kind",
+          "observed_at"
+        ],
+        "additionalProperties": false
+      },
+      "Events": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "type": "integer",
+            "enum": [
+              1
+            ]
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "maxItems": 200,
+            "uniqueItems": true
+          },
+          "next_cursor": {
+            "type": "string",
+            "pattern": "^v1:[0-9]+$"
+          },
+          "has_more": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "schema_version",
+          "revision",
+          "events",
+          "next_cursor",
+          "has_more"
+        ],
+        "additionalProperties": false
+      },
+      "ZonesReference": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "type": "integer",
+            "enum": [
+              1
+            ]
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Zone"
+            },
+            "maxItems": 500,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "schema_version",
+          "revision",
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "ProfilesReference": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "type": "integer",
+            "enum": [
+              1
+            ]
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Profile"
+            },
+            "maxItems": 5000,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "schema_version",
+          "revision",
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "TimetableReference": {
+        "type": "object",
+        "properties": {
+          "teacher_id": {
+            "type": "string",
+            "pattern": "^DEMO-\\d{4,8}$",
+            "description": "Existing anonymous fictitious roster ID only."
+          },
+          "timetable": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Timetable"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "teacher_id",
+          "timetable"
+        ],
+        "additionalProperties": false
+      },
+      "TimetablesReference": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "type": "integer",
+            "enum": [
+              1
+            ]
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TimetableReference"
+            },
+            "maxItems": 5000,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "schema_version",
+          "revision",
+          "items"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "IntegrationBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Random token; SHA256 server configuration; read/config/import scopes enforced by route, not declared by caller."
+      },
+      "CoordinatorSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "relai_session",
+        "description": "Requires login. POST/PUT also exact Origin and X-CSRF-Token."
+      }
+    }
+  }
+}

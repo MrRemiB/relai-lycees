@@ -14,6 +14,8 @@ from urllib.parse import urlsplit, unquote
 from matching import SUBJECTS, PATHWAYS, boolean, coordinates, date, match_candidates, match_routed_candidates, need_identifier, number, validate_need
 from routing import RouteService, METADATA as ROUTING_METADATA
 from scripts.generate_demo import generate_teachers
+from business import effective_teachers, context_fingerprint, revision
+from business_store import BusinessStore
 
 ROOT=Path(__file__).resolve().parent
 MAX_BODY=1048576
@@ -54,6 +56,8 @@ class Store:
                 initial=teachers if teachers is not None else generate_teachers(self.schools)
                 db.executemany('INSERT INTO teachers VALUES (?,?)',[(t['id'],json.dumps(t,ensure_ascii=False,allow_nan=False)) for t in initial])
 
+        self.business=BusinessStore(self)
+
     @contextmanager
     def connect(self):
         db=sqlite3.connect(self.path,timeout=15)
@@ -69,8 +73,13 @@ class Store:
     def needs(self,db): return [json.loads(r['body']) for r in db.execute('SELECT body FROM needs ORDER BY id DESC')]
     def assignments(self,db):
         rows=[dict(r) for r in db.execute('SELECT * FROM assignments ORDER BY id')]
+        needs={n['id']:n for n in self.needs(db)}
         for r in rows:
             if r.get('route'): r['route']=json.loads(r['route'])
+            n=needs.get(r['need_id'],{})
+            for k in ('school_id','mission_type','sessions'):
+                if k in n: r[k]=n[k]
+            if (r.get('route') or {}).get('route_origin_school_id'): r['route_origin_school_id']=r['route']['route_origin_school_id']
         return rows
     def need(self,db,identifier):
         need_identifier(identifier)
@@ -79,15 +88,18 @@ class Store:
         return json.loads(row['body'])
     def save(self,db,n): db.execute('UPDATE needs SET body=? WHERE id=?',(json.dumps(n,ensure_ascii=False,allow_nan=False),n['id']))
 
-    def dispatch(self,method,path,payload):
+    def dispatch(self,method,path,payload,actor='coordinator',query=''):
+        if path.startswith('/api/business') or path.startswith('/api/v1/'):
+            return self.business.dispatch(method,path,payload,actor,query)
         with self.connect() as db:
             if method=='GET':
                 if path=='/api/calendar': return 200,self.calendar
                 if path=='/api/needs': return 200,{'needs':self.needs(db)}
                 if path=='/api/bootstrap':
                     db.execute('BEGIN')
-                    ts=self.teachers(db)
-                    return 200,dict(schools=self.schools,teachers=ts,needs=self.needs(db),assignments=self.assignments(db),metadata=dict(self.metadata,teacher_count=len(ts),demo=True,subjects=SUBJECTS,pathways=PATHWAYS,today=dt.date.today().isoformat(),calendar=self.calendar.get('metadata',{}),routing=ROUTING_METADATA))
+                    business=self.business.read(db)
+                    ts=effective_teachers(self.schools,self.teachers(db),business)
+                    return 200,dict(business=business,schools=self.schools,teachers=ts,needs=self.needs(db),assignments=self.assignments(db),metadata=dict(self.metadata,teacher_count=len(ts),demo=True,subjects=SUBJECTS,pathways=PATHWAYS,today=dt.date.today().isoformat(),calendar=self.calendar.get('metadata',{}),routing=ROUTING_METADATA))
             elif method=='POST':
                 if path=='/api/needs':
                     n=validate_need(payload,self.school_index,creation=True)
@@ -101,41 +113,59 @@ class Store:
                     db.execute('BEGIN')
                     if 'need_id' in n:
                         stored=self.need(db,n['need_id'])
-                        for key in ['school_id','subject','pathway','start_date','end_date','hours','allow_cross_academy']:
-                            if n[key]!=stored[key]: raise ValueError('Le scénario doit correspondre au besoin enregistré.')
+                        for key in ['school_id','subject','pathway','start_date','end_date','hours','allow_cross_academy','mission_type','sessions']:
+                            fallback='unknown' if key=='mission_type' else None
+                            if n.get(key,fallback)!=stored.get(key,fallback): raise ValueError('Le scénario doit correspondre au besoin enregistré.')
                         if n['max_travel_minutes']!=stored.get('max_travel_minutes',90): raise ValueError('Le trajet maximum doit correspondre au besoin enregistré.')
-                    teachers,assignments=self.teachers(db),self.assignments(db)
+                    business=self.business.read(db)
+                    teachers,assignments=effective_teachers(self.schools,self.teachers(db),business),self.assignments(db)
+                    snapshot=context_fingerprint(self.schools,teachers,assignments,business)
                     db.commit()
-                    return 200,match_routed_candidates(n,self.school_index[n['school_id']],teachers,assignments,self.router,n.get('max_distance_km',150))
-                if path=='/api/teachers/import': return self.import_teachers(db,payload)
+                    result=match_routed_candidates(n,self.school_index[n['school_id']],teachers,assignments,self.router,n.get('max_distance_km',150),business)
+                    db.execute('BEGIN')
+                    current=self.business.read(db)
+                    if snapshot!=context_fingerprint(self.schools,effective_teachers(self.schools,self.teachers(db),current),self.assignments(db),current): raise APIError(409,'Contexte modifié pendant le calcul.')
+                    result.update(business_revision=business['revision'],business_mode=business['config']['mode'],snapshot=snapshot)
+                    return 200,result
+                if path=='/api/teachers/import': return self.import_teachers(db,payload,actor)
                 found=re.fullmatch(r'/api/needs/([1-9][0-9]*)/(assign|release|close)',path)
                 if found:
                     identifier,action=need_identifier(int(found[1])),found[2]
-                    allowed={'teacher_id','max_distance_km','max_travel_minutes'} if action=='assign' else set()
+                    allowed={'teacher_id','max_distance_km','max_travel_minutes','business_revision'} if action=='assign' else set()
                     if set(payload)-allowed: raise ValueError('Champs inconnus.')
                     if action=='assign':
                         if not isinstance(payload.get('teacher_id'),str): raise ValueError('Identifiant de profil requis.')
                         number(payload.get('max_distance_km',150),'Rayon',0,2000)
                         if 'max_travel_minutes' in payload: number(payload['max_travel_minutes'],'Trajet maximum',0,480)
                         # No routing/network while holding the SQLite write transaction.
+                        db.execute('BEGIN')
+                        business=self.business.read(db)
+                        if 'business_revision' in payload and revision(payload['business_revision'])!=business['revision']: raise APIError(409,'Révision métier obsolète.')
                         before=self.need(db,identifier)
                         if before['status']!='open': raise APIError(409,'Le besoin n’est plus ouvert.')
                         if payload.get('max_travel_minutes',before.get('max_travel_minutes',90))!=before.get('max_travel_minutes',90): raise ValueError('Le trajet maximum doit correspondre au besoin enregistré.')
-                        selected=[t for t in self.teachers(db) if t['id']==payload['teacher_id']]
+                        effective=effective_teachers(self.schools,self.teachers(db),business)
+                        assignments=self.assignments(db)
+                        snapshot=context_fingerprint(self.schools,effective,assignments,business)
+                        selected=[t for t in effective if t['id']==payload['teacher_id']]
                         if not selected: raise APIError(404,'Profil introuvable.')
-                        result=match_routed_candidates(before,self.school_index[before['school_id']],selected,self.assignments(db),self.router,payload.get('max_distance_km',150))
+                        db.commit()
+                        result=match_routed_candidates(before,self.school_index[before['school_id']],selected,assignments,self.router,payload.get('max_distance_km',150),business)
                         if not result['candidates']: raise APIError(409,'Profil incompatible, itinéraire indisponible ou trajet supérieur au maximum.')
                         candidate=result['candidates'][0]
                         audit={k:candidate[k] for k in ('duration_seconds','road_distance_km')}
                         audit.update({k:candidate['route'][k] for k in ('provider','resource_version','computed_at')})
+                        if business['config']['mode']=='controlled': audit['route_origin_school_id']=next(p['rad_school_id'] for p in business['profiles'] if p['teacher_id']==payload['teacher_id'])
                     db.execute('BEGIN IMMEDIATE')
                     n=self.need(db,identifier)
                     if action=='assign':
                         if n['status']!='open': raise APIError(409,'Le besoin n’est plus ouvert.')
                         if n!=before: raise APIError(409,'Besoin modifié pendant le calcul. Actualisez les candidatures.')
-                        teachers=self.teachers(db)
+                        current_business=self.business.read(db)
+                        teachers=effective_teachers(self.schools,self.teachers(db),current_business)
+                        if snapshot!=context_fingerprint(self.schools,teachers,self.assignments(db),current_business): raise APIError(409,'Configuration ou état modifié pendant le routage.')
                         if not any(t['id']==payload['teacher_id'] for t in teachers): raise APIError(404,'Profil introuvable.')
-                        result=match_candidates(n,self.school_index[n['school_id']],teachers,self.assignments(db),payload.get('max_distance_km',150))
+                        result=match_candidates(n,self.school_index[n['school_id']],teachers,self.assignments(db),payload.get('max_distance_km',150),current_business)
                         if not any(c['teacher']['id']==payload['teacher_id'] for c in result['candidates']): raise APIError(409,'Profil désormais incompatible ou période déjà affectée. Actualisez les candidatures.')
                         created=dt.datetime.now(dt.timezone.utc).isoformat()
                         # Recheck the selected anchor as well as every hard/date constraint.
@@ -145,6 +175,7 @@ class Store:
                         n.update(status='assigned',teacher_id=payload['teacher_id'])
                         self.save(db,n)
                         assignment=dict(id=aid,need_id=identifier,teacher_id=n['teacher_id'],start_date=n['start_date'],end_date=n['end_date'],hours=n['hours'],created_at=created,route=audit)
+                        assignment.update({k:n[k] for k in ('school_id','mission_type','sessions') if k in n})
                         return 200,dict(need=n,assignment=assignment)
                     if action=='release':
                         if n['status']!='assigned': raise APIError(409,'Seul un besoin affecté peut être libéré.')
@@ -157,7 +188,7 @@ class Store:
                     return 200,{'need':n}
             raise APIError(404,'Ressource introuvable.')
 
-    def import_teachers(self,db,payload):
+    def import_teachers(self,db,payload,actor='coordinator'):
         if set(payload)!={'teachers','confirm_demo'} or payload.get('confirm_demo') is not True:
             raise ValueError('Import exclusivement démo : confirm_demo:true requis.')
         batch=payload['teachers']
@@ -192,6 +223,7 @@ class Store:
         if ids & existing: raise APIError(409,'Un identifiant existe déjà ; import append-only.')
         if len(existing)+len(batch)>5000: raise ValueError('Limite de 5000 profils démo.')
         db.executemany('INSERT INTO teachers VALUES (?,?)',[(t['id'],json.dumps(t,ensure_ascii=False,allow_nan=False)) for t in batch])
+        self.business.invalidate(db); self.business.event(db,actor,'roster.append')
         return 200,{'imported':len(batch)}
 
 

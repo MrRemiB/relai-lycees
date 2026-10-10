@@ -4,7 +4,7 @@ from pathlib import Path
 import shlex
 from production import from_environment
 
-ENV_KEYS={'RELAI_PASSWORD_HASH','RELAI_SESSION_SECRET','RELAI_ORIGIN','RELAI_DB','RELAI_COOKIE_SECURE'}
+ENV_KEYS={'RELAI_PASSWORD_HASH','RELAI_SESSION_SECRET','RELAI_ORIGIN','RELAI_DB','RELAI_COOKIE_SECURE','RELAI_INTEGRATIONS_FILE','RELAI_INTEGRATIONS_JSON'}
 def load_env(path):
     path=Path(path)
     if not path.exists(): return

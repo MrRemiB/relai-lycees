@@ -2,6 +2,10 @@
 
 **Portée : pilote partagé avec profils fictifs, pas un service RH national conforme/homologué.** Un seul compte/ rôle `coordinator`, pas de SSO, pas de droits par établissement, pas de roster RH réel ni de journal d’audit nominatif. Avant tout usage RH : rectorat, DPO, base légale, rétention, audit de sécurité, SSO et cloisonnement des droits. Cette livraison ne déploie rien à l’extérieur.
 
+## Paramètres métier et intégrations
+
+Voir [BUSINESS_SERVER.md](BUSINESS_SERVER.md) et `openapi.json` pour le modèle v1, réglages après connexion, scopes read/config/import, génération de jetons sans affichage, imports transactionnels/révisions/idempotence et audit. Profils fictifs exclusivement. Le smoke vérifie aussi ces routes avec des jetons distincts puis sauvegarde/restaure sa base isolée.
+
 ## Installation locale vérifiable
 
 Python 3.11+ et Node 22+ pour la QA. Docker n’est pas nécessaire.
@@ -62,14 +66,14 @@ Se connecter dans le navigateur ; vérifier que le cookie est `Secure; HttpOnly;
 - Public : `GET /health` retourne uniquement `{ "status": "ok" }`, `GET/POST /login` (aucune donnée métier).
 - Tous les assets, `/`, API individuelles et jobs exigent une session valide. Aucun accès brut à Python, SQLite, données, docs ou secrets.
 - Session opaque aléatoire signée HMAC-SHA256, enregistrée côté serveur, TTL absolue 8 heures ; cookie HttpOnly, SameSite Strict, Secure par défaut. Déconnexion révoque la ligne SQLite. Aucun rôle revendiqué depuis un payload client.
-- `POST /login` exige `Origin` exactement égal à `RELAI_ORIGIN` (HTTPS en cible). Les autres POST exigent **aussi** `X-CSRF-Token`, fourni dans le JSON login/bootstrap. Refus d’une origine absente/différente ou d’un Fetch Metadata cross-site/same-site. Pas de CORS permissif.
+- `POST /login` exige `Origin` exactement égal à `RELAI_ORIGIN` (HTTPS en cible). Les autres POST et PUT humains exigent **aussi** `X-CSRF-Token`, fourni dans le JSON login/bootstrap. Refus d’une origine absente/différente ou d’un Fetch Metadata cross-site/same-site. Pas de CORS permissif.
 - JSON strict : clés dupliquées, NaN/Infinity, champs inconnus, nombres booléens, dates impossibles et corps >3 Mo refusés. Le workflow individuel conserve sa validation existante et ses transactions atomiques.
 - Dix tentatives de login par adresse de pair en 15 minutes (table SQLite). Le proxy loopback est volontairement vu comme pair commun : limitation conservatrice partagée, pas un système anti-abus distribué. Ne pas faire confiance à X-Forwarded-For client.
 - CSP, no-store, nosniff, frame denial ; tuiles OSM externes déclarées. Pas de requêtes IGN depuis le panneau serveur ; le navigateur n’envoie que les jobs à ce serveur.
 
 ## Contrat des lots persistés
 
-`POST /api/batches` avec `{ "needs": [ ... ] }` → 201 `{job}`. Exactement 1 à 3 000 besoins ; **validation complète avant toute écriture**, rejet atomique. Chaque besoin contient exactement :
+`POST /api/batches` avec `{ "needs": [ ... ] }` → 201 `{job}`. Exactement 1 à 3 000 besoins ; **validation complète avant toute écriture**, rejet atomique. Chaque besoin contient les champs historiques ci-dessous et, facultativement, `mission_type` et `sessions` (schéma strict dans BUSINESS_SERVER.md). L’enveloppe peut aussi porter `schema_version:1` :
 
 ```json
 {
@@ -88,11 +92,11 @@ Les dates ci-dessus ne sont qu’un exemple de schéma. Les champs sont validés
 - `POST /api/batches/{id}/run` avec `{}` → 202 : **une passe asynchrone**, réponse immédiate ; 409 si un job est encore actif.
 - `POST /api/batches/{id}/cancel` avec `{}` → 200 : annulation persistée, génération invalidée. Une requête IGN déjà partie peut finir/cache, mais ne publie pas de résultat post-annulation. Nouvelle passe possible dès la sortie du worker.
 
-États : `queued`, `running`, `partial`, `completed`, `cancelled`, `interrupted`, `stale`, `failed`. Une passe réévalue toutes les éligibilités, les dates et les affectations persistées. Elle ordonne urgence, rareté puis date, interdit tous les chevauchements inclusifs entre propositions et affectations existantes. **Heuristique gloutonne, pas optimisation globale ni réaffectation optimale.** Les profils sont fictifs. Une proposition n’est pas affectée automatiquement ; la validation humaine du workflow individuel existant refait le trajet et les contrôles atomiques.
+États : `queued`, `running`, `partial`, `completed`, `cancelled`, `interrupted`, `stale`, `failed`. Une passe réévalue toutes les éligibilités, les dates et les affectations persistées. En historique elle ordonne urgence, rareté puis date et interdit les chevauchements inclusifs. En contrôlé elle consomme la même configuration et les mêmes contrôles que le matching individuel : priorités configurées, capacité cumulée, RCD, EDT et revue intersites ; augmentation bornée à un déplacement de proposition. **Heuristique, pas optimisation globale ni réaffectation officielle.** Les profils sont fictifs. Une proposition n’est pas affectée automatiquement ; la validation humaine du workflow individuel existant refait le trajet et les contrôles atomiques.
 
 Progression d’éligibilité persistée toutes les 25 lignes puis phase routage ; comptes calculés depuis les résultats, jamais depuis une estimation. Une passe cible au plus **80 paires uniques**, une seule invocation de `RouteService` : 4 req/s, 4 workers IGN et délai routage 30 s. Curseur durable round-robin entre reprises, y compris au-delà des premiers trajets inconnus. Le délai total inclut aussi la revalidation CPU/SQLite ; 30 s n’est pas un SLA du job entier. Pas de retry automatique, ni milliers de requêtes simultanées, ni durée substituée.
 
-Résultats `proposed|deferred|unassigned` dont la somme vaut `total`. Preuve routière : secondes exactes, distance, fournisseur, version de ressource, horodatage, expiration. Géométries restent dans le cache RouteService, pas dupliquées dans les lignes de job. Trajets inconnus/indisponibles ou école sans coordonnées/secteur fiable : différés. Comparaison partielle explicitée même lorsqu’une proposition est disponible. L’absence de candidat compatible, un trajet vérifié incompatible ou un conflit démontré peuvent laisser non pourvu. Les propositions sont invalidées à la lecture si snapshot enseignants/écoles/affectations a changé ou si un trajet accumulé a expiré ; le worker vérifie aussi le snapshot avant d’écrire. Aucun export UI de job `stale/running/interrupted/failed`.
+Résultats `proposed|review|deferred|unassigned` (review présent en contrôlé) dont la somme vaut `total`. Preuve routière : secondes exactes, distance, fournisseur, version de ressource, horodatage, expiration. Géométries restent dans le cache RouteService, pas dupliquées dans les lignes de job. Trajets inconnus/indisponibles ou école sans coordonnées/secteur fiable : différés. Comparaison partielle explicitée même lorsqu’une proposition est disponible. L’absence de candidat compatible, un trajet vérifié incompatible ou un conflit démontré peuvent laisser non pourvu. Les propositions sont invalidées à la lecture si snapshot enseignants/écoles/affectations a changé ou si un trajet accumulé a expiré ; le worker vérifie aussi le snapshot avant d’écrire. Aucun export UI de job `stale/running/interrupted/failed`.
 
 Le panneau production utilise ces APIs, relit après mutations, peut lister/ouvrir les jobs après rechargement, annuler/reprendre et exporter toutes les lignes. Aucun job production calculé seulement par Worker navigateur ni sauvegardé dans le navigateur. Le chemin `staticMode` distinct conserve le démonstrateur public limité à **100** besoins ; cette branche n’est jamais publiée vers Pages. La CI production n’a aucun job de publication et le workflow Pages refuse même un dispatch depuis production.
 
@@ -123,6 +127,6 @@ Après restauration : connexion, relecture des IDs/comptes attendus, job actif d
 
 ## Allowlist de livraison
 
-Code : `app.py`, `matching.py`, `routing.py`, `batches.py`, `production.py`, `wsgi.py`, `gunicorn.conf.py`, `requirements-production.txt`, `static/`, `scripts/` (sources .py seulement), `data/schools.json`, `data/calendar.json`, `data/SOURCES.md`, `deploy/`, cette documentation et `.env.example`. Tests optionnels : `tests/`, `frontend_tests/`. Exclure les `.env` réels, runtime, SQLite/cache/locks/journaux, venv, dist, captures et caches Python. Créer le venv sur cible ; ne pas transporter un environnement WSL comme installation Linux.
+Code : `app.py`, `matching.py`, `routing.py`, `business.py`, `business_store.py`, `batches.py`, `openapi.json`, `BUSINESS_SERVER.md`, `BUSINESS_BROWSER.md`, `EVOLUTION_METIER.md`, `production.py`, `wsgi.py`, `gunicorn.conf.py`, `requirements-production.txt`, `static/`, `scripts/` (sources .py seulement), `data/schools.json`, `data/calendar.json`, `data/SOURCES.md`, `deploy/`, cette documentation et `.env.example`. Tests optionnels : `tests/`, `frontend_tests/`. Exclure les `.env` réels, runtime, SQLite/cache/locks/journaux, venv, dist, captures et caches Python. Créer le venv sur cible ; ne pas transporter un environnement WSL comme installation Linux.
 
 La version Gunicorn/packaging épinglée a été installée dans un venv isolé et réellement exécutée. L’activation systemd, les certificats Caddy, les sauvegardes de votre base réelle et une homologation RH ne sont pas revendiquées.

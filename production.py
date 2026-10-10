@@ -32,11 +32,27 @@ def validate_config(config):
     if not parsed.netloc or parsed.path or parsed.query or parsed.fragment or parsed.username or parsed.password or parsed.scheme not in ('https','http'): raise ValueError('RELAI_ORIGIN doit être une origine exacte sans chemin.')
     if parsed.scheme!='https' and (secure or parsed.hostname not in ('127.0.0.1','localhost')): raise ValueError('HTTPS requis sauf test HTTP loopback explicitement non sécurisé.')
     config['secure']=secure
+    integrations=config.get('integrations',[])
+    if not isinstance(integrations,list) or len(integrations)>50: raise ValueError('Maximum 50 intégrations.')
+    seen=set()
+    for item in integrations:
+        if not isinstance(item,dict) or set(item)!={'id','token_hash','scopes'} or not isinstance(item['id'],str) or not re.fullmatch('[A-Za-z0-9_-]{1,64}',item['id']) or item['id'] in seen: raise ValueError('Intégration stricte ID unique requis.')
+        seen.add(item['id'])
+        if not isinstance(item['token_hash'],str) or not re.fullmatch('[0-9a-f]{64}',item['token_hash']): raise ValueError('SHA256 token requis.')
+        if not isinstance(item['scopes'],list) or not item['scopes'] or len(set(item['scopes']))!=len(item['scopes']) or set(item['scopes'])-{'read','config','import'}: raise ValueError('Scopes read/config/import explicites requis.')
+    config['integrations']=integrations
     return config
 
 def from_environment():
     if os.environ.get('RELAI_COOKIE_SECURE','true') not in ('true','false'): raise ValueError('RELAI_COOKIE_SECURE true ou false requis.')
     config=validate_config(dict(password_hash=os.environ.get('RELAI_PASSWORD_HASH',''),session_secret=os.environ.get('RELAI_SESSION_SECRET',''),origin=os.environ.get('RELAI_ORIGIN',''),secure=os.environ.get('RELAI_COOKIE_SECURE','true')=='true'))
+    token_file=os.environ.get('RELAI_INTEGRATIONS_FILE')
+    if token_file:
+        token_path=Path(token_file)
+        if token_path.stat().st_mode & 0o077: raise ValueError('Fichier intégrations mode 0600 requis.')
+        config['integrations']=decode_json(token_path.read_bytes())
+    elif os.environ.get('RELAI_INTEGRATIONS_JSON'): config['integrations']=decode_json(os.environ['RELAI_INTEGRATIONS_JSON'])
+    config=validate_config(config)
     dbpath=Path(os.environ.get('RELAI_DB',str(ROOT/'runtime/pilot.sqlite3'))).resolve()
     # A second process/worker is unsafe: fail start instead of duplicating jobs.
     import fcntl
@@ -106,6 +122,20 @@ class PilotApplication:
             if previous: db.execute('DELETE FROM pilot_sessions WHERE id=?',(previous['id'],))
             db.execute('INSERT INTO pilot_sessions VALUES(?,?,?)',(identifier,csrf,time.time()+28800))
         return identifier,csrf
+    def integration(self,env,method,path):
+        # No fallback to a session, cookie mixing, query token or browser CSRF bypass.
+        if env.get('HTTP_COOKIE') or env.get('QUERY_STRING') and path!='/api/v1/events': raise APIError(403,'Bearer seul, sans cookie ni query secret.')
+        value=env.get('HTTP_AUTHORIZATION','')
+        match=re.fullmatch(r'Bearer ([A-Za-z0-9_-]{32,256})',value)
+        digest=hashlib.sha256((match[1] if match else '').encode()).hexdigest(); found=None
+        for item in self.config['integrations']:
+            equal=hmac.compare_digest(digest,item['token_hash'])
+            if equal and match: found=item
+        if found is None: raise APIError(401,'Jeton intégration refusé.')
+        scope='read' if method=='GET' and (path=='/api/v1/config' or path=='/api/v1/events' or path.startswith('/api/v1/reference/')) else 'config' if method=='PUT' and path=='/api/v1/config' else 'import' if method=='POST' and path in ('/api/v1/imports/validate','/api/v1/imports/commit') else None
+        if scope is None or scope not in found['scopes']: raise APIError(403,'Route ou scope intégration interdit.')
+        return 'integration:'+found['id']
+
     def __call__(self,env,start_response):
         extra=[]; content='application/json; charset=utf-8'
         try:
@@ -118,11 +148,14 @@ class PilotApplication:
                 status,body=200,dict(csrf_token=csrf,role='coordinator')
                 if form: status=303; extra.append(('Location','/'))
             else:
-                session=self.session(env)
-                if not session: raise APIError(401,'Connexion requise : /login')
-                if method=='POST':
-                    self.origin(env)
-                    if not hmac.compare_digest(env.get('HTTP_X_CSRF_TOKEN',''),session['csrf']): raise APIError(403,'Jeton CSRF requis.')
+                bearer=bool(env.get('HTTP_AUTHORIZATION'))
+                actor=self.integration(env,method,path) if bearer else 'coordinator'
+                session=None if bearer else self.session(env)
+                if not bearer and not session: raise APIError(401,'Connexion requise : /login')
+                if method in ('POST','PUT'):
+                    if not bearer:
+                        self.origin(env)
+                        if not hmac.compare_digest(env.get('HTTP_X_CSRF_TOKEN',''),session['csrf']): raise APIError(403,'Jeton CSRF requis.')
                     p,_=self.payload(env)
                 else: p=None
                 if path=='/logout' and method=='POST':
@@ -139,7 +172,7 @@ class PilotApplication:
                         status,body=(202 if action=='run' else 200),{'job':getattr(self.batches,action)(j)}
                     else: raise APIError(404,'Ressource introuvable.')
                 elif path.startswith('/api/'):
-                    status,body=self.store.dispatch(method,path,p)
+                    status,body=self.store.dispatch(method,path,p,actor=actor,query=env.get('QUERY_STRING',''))
                     if path=='/api/bootstrap': body.update(csrf_token=session['csrf'],auth=dict(role='coordinator',sso=False,pilot=True))
                 elif method=='GET':
                     relative='index.html' if path=='/' else path[8:] if path.startswith('/static/') else None

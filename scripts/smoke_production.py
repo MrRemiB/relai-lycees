@@ -1,5 +1,7 @@
 """Real Gunicorn HTTP smoke, random credentials and isolated DB, offline only."""
 import http.cookiejar
+import hashlib
+import copy
 import json
 import os
 from pathlib import Path
@@ -25,7 +27,9 @@ def main():
         env=os.environ.copy()
         for k in tuple(env):
             if k.startswith('RELAI_'): del env[k]
-        env.update(RELAI_PASSWORD_HASH=hash_password(password),RELAI_SESSION_SECRET=secrets.token_urlsafe(48),RELAI_ORIGIN=base,RELAI_DB=str(db),RELAI_COOKIE_SECURE='false',RELAI_ENV_FILE=str(tmp/'absent.env'))
+        token=secrets.token_urlsafe(40); read_token=secrets.token_urlsafe(40)
+        integrations=[dict(id='smoke-sync',token_hash=hashlib.sha256(token.encode()).hexdigest(),scopes=['read','import','config']),dict(id='smoke-reader',token_hash=hashlib.sha256(read_token.encode()).hexdigest(),scopes=['read'])]
+        env.update(RELAI_INTEGRATIONS_JSON=json.dumps(integrations),RELAI_PASSWORD_HASH=hash_password(password),RELAI_SESSION_SECRET=secrets.token_urlsafe(48),RELAI_ORIGIN=base,RELAI_DB=str(db),RELAI_COOKIE_SECURE='false',RELAI_ENV_FILE=str(tmp/'absent.env'))
         cmd=[sys.executable,'-m','gunicorn','-c','gunicorn.conf.py','--bind',f'127.0.0.1:{port}','wsgi:application']
         log=open(tmp/'server.log','w+')
         process=None
@@ -40,15 +44,20 @@ def main():
                 except (URLError,TimeoutError): time.sleep(.1)
             p.terminate(); p.wait(timeout=10); raise RuntimeError('Gunicorn readiness timeout')
         jar=http.cookiejar.CookieJar(); client=build_opener(HTTPCookieProcessor(jar))
-        def request(path,payload=None,csrf='',origin=True):
+        def request(path,payload=None,csrf='',origin=True,method=None):
             headers={'Accept':'application/json'}
             if payload is not None:
                 headers.update({'Content-Type':'application/json','X-CSRF-Token':csrf})
                 if origin: headers['Origin']=base
-            req=Request(base+path,data=json.dumps(payload).encode() if payload is not None else None,headers=headers)
+            req=Request(base+path,data=json.dumps(payload).encode() if payload is not None else None,headers=headers,method=method)
             try: response=client.open(req,timeout=15)
             except HTTPError as e: response=e
             raw=response.read(); return response.status,json.loads(raw) if response.headers.get_content_type()=='application/json' else raw
+        def integration(path,payload=None,method=None,credential=None):
+            req=Request(base+path,data=json.dumps(payload).encode() if payload is not None else None,headers={'Authorization':'Bearer '+(credential or token),'Content-Type':'application/json'},method=method)
+            try: response=build_opener().open(req,timeout=15)
+            except HTTPError as e: response=e
+            return response.status,json.loads(response.read())
         try:
             process=start()
             # Real process ownership check: a second worker on this same DB
@@ -89,8 +98,67 @@ def main():
                 assert sql.execute('SELECT count(*) FROM assignments').fetchone()[0]==0
                 assert sql.execute('SELECT count(*) FROM needs').fetchone()[0]==0
             assert request('/static/server-batch-ui.js')[0]==200
+            assert request('/static/business-ui.js')[0]==200
+            # Real HTTP service integration and authenticated manual settings contract.
+            code,bootstrap=request('/api/bootstrap'); assert code==200
+            from business import default_business
+            b=default_business(); t=next(t for t in bootstrap['teachers'] if t['subjects'] and t['pathways'])
+            s=next(s for s in bootstrap['schools'] if s['academy']==t['academy'] and s['sector']==t['sector'] and s['lat']==t['lat'] and s['lon']==t['lon'])
+            observed=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())
+            b['config'].update(mode='controlled',academy=s['academy'],school_ids=[s['id']],source_reference='Gunicorn smoke fictitious rules',validated_on=observed[:10],state='draft')
+            b['zones']=[dict(id='Z_SMOKE',label='Fictitious smoke zone',academy=s['academy'],school_ids=[s['id']],adjacent_zone_ids=[])]
+            b['profiles']=[dict(teacher_id=t['id'],status='TZR',rad_school_id=s['id'],zone_ids=['Z_SMOKE'],contract=None,capacity_hours=18,capacity_validated=True,rcd_engagement=None,mobility_modes=['car'],cross_academy=False,source_updated_at=observed,availability=None,timetable=dict(known=True,sessions=[],source_updated_at=observed))]
+            payload=dict(document=b,expected_revision=0,confirm_demo=True)
+            assert integration('/api/v1/config',credential=read_token)[0]==200
+            assert integration('/api/v1/imports/validate',payload,credential=read_token)[0]==403
+            assert integration('/api/v1/imports/validate',payload)[0]==200
+            assert integration('/api/v1/config')[1]['revision']==0
+            assert integration('/api/v1/events')[1]['events']==[]
+            payload['idempotency_key']='gunicorn_snapshot_001'
+            code,saved=integration('/api/v1/imports/commit',payload); assert code==200 and saved['revision']==1
+            assert integration('/api/v1/config')[1]==saved
+            assert integration('/api/v1/imports/commit',payload)==(200,saved)
+            changed=copy.deepcopy(payload);changed['document']['config']['label']='Different';assert integration('/api/v1/imports/commit',changed)[0]==409
+            assert len(integration('/api/v1/events')[1]['events'])==1
+            for ref in ('zones','profiles','timetables'):assert integration('/api/v1/reference/'+ref)[1]['revision']==1
+            assert integration('/api/v1/events?cursor=v2:0')[0]==400
+            assert integration('/api/bootstrap')[0]==403
+            n=dict(school_id=s['id'],subject=t['subjects'][0],pathway=next(p for p in t['pathways'] if p in s['pathways']),start_date=t['available_from'],end_date=t['available_from'],hours=6,allow_cross_academy=False,max_travel_minutes=90,mission_type='rectoral',sessions=[dict(date=t['available_from'],start='10:00',end='11:00',timezone='Europe/Paris',school_id=s['id'])])
+            code,matched=request('/api/match',n,csrf);assert code==200 and not matched['candidates'] and matched['review']
+            bn=dict(n,urgency='Normale',max_distance_km=150)
+            code,result=request('/api/batches',{'schema_version':1,'needs':[bn]},csrf);assert code==201;bj=result['job']['id']
+            assert request('/api/batches/'+bj+'/run',{},csrf)[0]==202
+            deadline=time.monotonic()+15
+            while time.monotonic()<deadline:
+                result=request('/api/batches/'+bj)[1]['job']
+                if result['status']!='running':break
+                time.sleep(.1)
+            assert result['counts']['review']==1 and result['counts']['proposed']==0,result
+            assert request('/api/business/validate',dict(document=b,expected_revision=1,confirm_demo=True),csrf)[0]==200
+            code,manual=request('/api/business/commit',dict(document=b,expected_revision=1,confirm_demo=True),csrf);assert code==200 and manual['revision']==2
+            assert request('/api/business')[1]==manual
+            assert request('/api/batches/'+bj)[1]['job']['status']=='stale'
+            put=dict(document=b,expected_revision=2,confirm_demo=True,idempotency_key='gunicorn_config_003')
+            assert request('/api/v1/config',put,csrf='',method='PUT')[0]==403
+            assert integration('/api/v1/config',put,method='PUT',credential=read_token)[0]==403
+            stale=dict(put,expected_revision=0);assert integration('/api/v1/config',stale,method='PUT')[0]==409
+            code,manual=integration('/api/v1/config',put,method='PUT');assert code==200 and manual['revision']==3
+            assert integration('/api/v1/config',put,method='PUT')==(200,manual)
+            assert len(integration('/api/v1/events')[1]['events'])==3
+            # curl contract: Authorization via stdin, not argv, no Cookie/no verbose output.
+            curl=subprocess.run(['curl','--fail-with-body','--silent','--show-error','--header','@-',base+'/api/v1/config'],input=('Authorization: Bearer '+read_token+'\n').encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=15)
+            assert curl.returncode==0 and json.loads(curl.stdout)==manual
+            process.terminate();process.wait(timeout=15)
+            from scripts.backup_sqlite import backup
+            import shutil
+            backup(db,tmp/'restore.sqlite3');shutil.copy2(tmp/'restore.sqlite3',db)
+            process=start()
+            assert integration('/api/v1/config')[1]==manual
+            assert len(integration('/api/v1/events')[1]['events'])==3
+            assert request('/api/business')[1]==manual
             assert request('/logout',{},csrf)[0]==200
             assert request('/api/batches/'+j)[0]==401
+            print('BUSINESS INTEGRATION SMOKE OK: distinct scoped tokens; dryrun0/commit1/readback/idempotent/no duplicate event/conflict409; draft matching and batch review failclosed; manual CSRF settings2/readback/atomic job stale; HTTP PUT CSRF403/readscope403/stale409/config3/retry200; curl bearer stdin; restart config/events persisted. No secrets printed.')
             print('GUNICORN HTTP SMOKE OK: health200 private401 login200 csrf403 origin403 batch3000 created201/read200/run202 exact0/3000/0 cancel persisted/restart200 logout401; no IGN calls, no assignments.')
         finally:
             if process and process.poll() is None: process.terminate(); process.wait(timeout=15)
